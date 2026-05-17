@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marz Stay Secure — Cybersecurity Audit Services | Marz Technology & Trading</title>
+  <meta name="description" content="Marz Stay Secure — comprehensive cybersecurity audit services in Malaysia. Risk assessments, penetration testing, compliance validation, and security packages for businesses of all sizes.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* ---- Cybersecurity-specific styles ---- */
+    .cyber-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1a1a2e 50%, #16213e 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    .cyber-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(220, 38, 38, 0.03) 40px, rgba(220, 38, 38, 0.03) 41px),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(220, 38, 38, 0.03) 40px, rgba(220, 38, 38, 0.03) 41px);
+      pointer-events: none;
+    }
+    .cyber-hero-content {
+      position: relative;
+      z-index: 1;
+    }
+    .cyber-hero .section-tag-light {
+      border-color: rgba(220, 38, 38, 0.4);
+    }
+    .cyber-description-section {
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+    .cyber-description-section .section-text {
+      color: #cbd5e1;
+    }
+    .cyber-scope-section {
+      background: #1e293b;
+      color: #e2e8f0;
+    }
+    .cyber-scope-section .section-tag {
+      color: #94a3b8;
+    }
+    .cyber-scope-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .cyber-scope-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .cyber-scope-card:hover {
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-4px);
+      border-color: rgba(220, 38, 38, 0.3);
+    }
+    .cyber-scope-card .icon {
+      font-size: 2.4rem;
+      color: #DC2626;
+      margin-bottom: 16px;
+    }
+    .cyber-scope-card h3 {
+      color: #fff;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .cyber-scope-card p {
+      color: #94a3b8;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    /* Package cards */
+    .cyber-packages-section {
+      background: #0f172a;
+    }
+    .cyber-packages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .cyber-package-card {
+      background: #1e293b;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      padding: 32px 28px;
+      position: relative;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .cyber-package-card:hover {
+      border-color: rgba(220, 38, 38, 0.3);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(220, 38, 38, 0.1);
+    }
+    .cyber-package-card.featured {
+      border-color: #DC2626;
+      background: linear-gradient(180deg, #1e293b 0%, #1a1a2e 100%);
+    }
+    .cyber-package-card.featured .package-badge {
+      display: inline-block;
+    }
+    .package-badge {
+      display: none;
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: #DC2626;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .package-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .package-price {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #DC2626;
+      margin-bottom: 4px;
+    }
+    .package-price span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #94a3b8;
+    }
+    .package-desc {
+      color: #94a3b8;
+      font-size: 0.88rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    .package-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px;
+    }
+    .package-features li {
+      color: #cbd5e1;
+      font-size: 0.85rem;
+      padding: 6px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .package-features li i {
+      color: #DC2626;
+      font-size: 0.75rem;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .package-btn {
+      width: 100%;
+      text-align: center;
+    }
+    /* Value Section */
+    .cyber-value-section {
+      background: #1e293b;
+    }
+    .cyber-value-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 40px;
+    }
+    .cyber-value-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 28px 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .cyber-value-item:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(37, 99, 235, 0.3);
+    }
+    .cyber-value-item .icon {
+      font-size: 2rem;
+      color: #2563EB;
+      margin-bottom: 12px;
+    }
+    .cyber-value-item h3 {
+      color: #fff;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+    .cyber-value-item p {
+      color: #94a3b8;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+    /* Form Section */
+    .cyber-form-section {
+      background: #0f172a;
+    }
+    .cyber-form-wrapper {
+      max-width: 720px;
+      margin: 0 auto;
+      background: #1e293b;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      padding: 48px 40px;
+    }
+    .cyber-form-wrapper h2 {
+      color: #fff;
+      font-size: 1.6rem;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .cyber-form-wrapper p {
+      color: #94a3b8;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      color: #cbd5e1;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+    }
+    .form-group label .required {
+      color: #DC2626;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: #0f172a;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #2563EB;
+    }
+    .form-group select option {
+      background: #0f172a;
+      color: #e2e8f0;
+    }
+    .form-group textarea {
+      resize: vertical;
+    }
+    .cyber-form-wrapper .btn-block {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+    }
+    .form-status {
+      text-align: center;
+      padding: 12px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: none;
+    }
+    .form-status.success {
+      display: block;
+      background: rgba(34, 197, 94, 0.12);
+      color: #22c55e;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+    .form-status.error {
+      display: block;
+      background: rgba(220, 38, 38, 0.12);
+      color: #ef4444;
+      border: 1px solid rgba(220, 38, 38, 0.3);
+    }
+    .form-status.loading {
+      display: block;
+      background: rgba(37, 99, 235, 0.12);
+      color: #60a5fa;
+      border: 1px solid rgba(37, 99, 235, 0.3);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .cyber-form-wrapper {
+        padding: 32px 20px;
+      }
+      .cyber-packages-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo">
+        <img src="../images/logo-marz.png" alt="Marz Technology" style="height: 32px; width: auto;">
+      </a>
+      <nav class="nav">
+        <ul class="nav-list">
+          <li><a href="../index.html" class="nav-link">Home</a></li>
+          <li><a href="../about.html" class="nav-link">About</a></li>
+          <li><a href="../services.html" class="nav-link">Services</a></li>
+          <li><a href="../ai-solutions.html" class="nav-link">AI Solutions</a></li>
+          <li><a href="../products.html" class="nav-link">Products</a></li>
+          <li><a href="../contact.html" class="nav-link">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-cta">
+        <a href="../contact.html" class="btn btn-primary btn-sm">Get a Quote</a>
+      </div>
+      <button class="menu-toggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+  <div class="nav-overlay"></div>
+
+  <!-- ==================== HERO ==================== -->
+  <section class="page-hero cyber-hero animate-on-scroll">
+    <div class="container page-hero-content cyber-hero-content">
+      <div class="section-tag section-tag-light">Marz Stay Secure</div>
+      <h1 class="page-hero-title">Stay Secure, Remain Safe</h1>
+      <p class="page-hero-text">Comprehensive cybersecurity audit services designed to protect your business from evolving digital threats. Risk assessments, vulnerability analysis, compliance validation, and penetration testing — all delivered by certified professionals.</p>
+    </div>
+  </section>
+
+  <!-- ==================== DESCRIPTION ==================== -->
+  <section class="section-light cyber-description-section animate-on-scroll">
+    <div class="container">
+      <div class="section-tag">Why Cybersecurity Matters</div>
+      <h2 class="section-title section-title-light">Protect What Matters Most</h2>
+      <p class="section-text">In today's digital landscape, cyber threats are evolving faster than ever. A single breach can cost your business millions in lost revenue, damaged reputation, and regulatory penalties. Our cybersecurity audit services help you identify vulnerabilities before attackers do — ensuring your operations remain secure, compliant, and resilient.</p>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-top: 32px;">
+        <div style="background: rgba(255,255,255,0.04); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.06);">
+          <i class="fas fa-shield-halved" style="font-size: 1.8rem; color: #DC2626; margin-bottom: 10px;"></i>
+          <h4 style="color: #fff; font-size: 0.95rem; margin: 0;">Prevent Financial Losses</h4>
+        </div>
+        <div style="background: rgba(255,255,255,0.04); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.06);">
+          <i class="fas fa-check-double" style="font-size: 1.8rem; color: #DC2626; margin-bottom: 10px;"></i>
+          <h4 style="color: #fff; font-size: 0.95rem; margin: 0;">Ensure Compliance</h4>
+        </div>
+        <div style="background: rgba(255,255,255,0.04); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.06);">
+          <i class="fas fa-clock" style="font-size: 1.8rem; color: #DC2626; margin-bottom: 10px;"></i>
+          <h4 style="color: #fff; font-size: 0.95rem; margin: 0;">Minimize Downtime</h4>
+        </div>
+        <div style="background: rgba(255,255,255,0.04); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.06);">
+          <i class="fas fa-handshake" style="font-size: 1.8rem; color: #DC2626; margin-bottom: 10px;"></i>
+          <h4 style="color: #fff; font-size: 0.95rem; margin: 0;">Enhance Customer Trust</h4>
+        </div>
+        <div style="background: rgba(255,255,255,0.04); border-radius: 12px; padding: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.06);">
+          <i class="fas fa-search" style="font-size: 1.8rem; color: #DC2626; margin-bottom: 10px;"></i>
+          <h4 style="color: #fff; font-size: 0.95rem; margin: 0;">Identify Vulnerabilities</h4>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SCOPE OF SERVICES ==================== -->
+  <section class="section-dark cyber-scope-section animate-on-scroll">
+    <div class="container">
+      <div class="section-tag section-tag-light">Scope of Services</div>
+      <h2 class="section-title section-title-light">What We Audit</h2>
+      <p class="section-text section-text-light">Our cybersecurity audits cover every critical layer of your digital infrastructure, from network security to regulatory compliance.</p>
+      <div class="cyber-scope-grid">
+        <div class="cyber-scope-card animate-on-scroll">
+          <div class="icon"><i class="fas fa-network-wired"></i></div>
+          <h3>IT Security Assessment</h3>
+          <p>Comprehensive evaluation of firewall configurations, endpoint security, and vulnerability scanning to identify weaknesses in your IT infrastructure.</p>
+        </div>
+        <div class="cyber-scope-card animate-on-scroll">
+          <div class="icon"><i class="fas fa-file-shield"></i></div>
+          <h3>Compliance &amp; Regulatory Audits</h3>
+          <p>In-depth assessments against PCI-DSS, HIPAA, ISO 27001, and NACSA standards to ensure your organisation meets all regulatory requirements.</p>
+        </div>
+        <div class="cyber-scope-card animate-on-scroll">
+          <div class="icon"><i class="fas fa-bug"></i></div>
+          <h3>Penetration Testing</h3>
+          <p>Simulated cyber attacks against your systems to identify exploitable vulnerabilities before malicious actors can find them.</p>
+        </div>
+        <div class="cyber-scope-card animate-on-scroll">
+          <div class="icon"><i class="fas fa-life-ring"></i></div>
+          <h3>Incident Response Readiness</h3>
+          <p>Assessment of your incident detection, response, and recovery capabilities to minimise damage when a security event occurs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PACKAGES ==================== -->
+  <section class="section-dark cyber-packages-section animate-on-scroll">
+    <div class="container">
+      <div class="section-tag section-tag-light">Our Packages</div>
+      <h2 class="section-title section-title-light">Cybersecurity Audit Packages</h2>
+      <p class="section-text section-text-light">Choose the package that fits your organisation's size, industry, and security requirements. All packages include a detailed report and remediation roadmap.</p>
+      <div class="cyber-packages-grid">
+        <!-- Package 1: Essential Security -->
+        <div class="cyber-package-card animate-on-scroll">
+          <span class="package-badge">Best Value</span>
+          <div class="package-name">Essential Security</div>
+          <div class="package-price">RM8,000 <span>– RM12,000</span></div>
+          <p class="package-desc">Ideal for small businesses and startups needing fundamental security assessment and basic compliance validation.</p>
+          <ul class="package-features">
+            <li><i class="fas fa-check"></i> Basic IT security assessment</li>
+            <li><i class="fas fa-check"></i> Firewall configuration review</li>
+            <li><i class="fas fa-check"></i> Vulnerability scanning</li>
+            <li><i class="fas fa-check"></i> Patch management audit</li>
+          </ul>
+          <a href="#inquiry-form" class="btn btn-outline package-btn">Request Quotation</a>
+        </div>
+
+        <!-- Package 2: E-Commerce Protect -->
+        <div class="cyber-package-card animate-on-scroll">
+          <div class="package-name">E-Commerce Protect</div>
+          <div class="package-price">RM20,000 <span>– RM40,000</span></div>
+          <p class="package-desc">Designed for online retailers and e-commerce platforms requiring NACSA/MyCC compliance and continuous threat monitoring.</p>
+          <ul class="package-features">
+            <li><i class="fas fa-check"></i> NACSA / MyCC compliance audit</li>
+            <li><i class="fas fa-check"></i> Threat intelligence integration</li>
+            <li><i class="fas fa-check"></i> 24/7 security monitoring</li>
+            <li><i class="fas fa-check"></i> Incident response planning</li>
+          </ul>
+          <a href="#inquiry-form" class="btn btn-outline package-btn">Request Quotation</a>
+        </div>
+
+        <!-- Package 3: Health Secure -->
+        <div class="cyber-package-card animate-on-scroll featured">
+          <span class="package-badge">Popular</span>
+          <div class="package-name">Health Secure</div>
+          <div class="package-price">RM30,000 <span>– RM60,000</span></div>
+          <p class="package-desc">Tailored for healthcare providers and medical institutions requiring HIPAA/MDA compliance and patient data protection.</p>
+          <ul class="package-features">
+            <li><i class="fas fa-check"></i> HIPAA / MDA compliance audit</li>
+            <li><i class="fas fa-check"></i> Data protection assessment</li>
+            <li><i class="fas fa-check"></i> Incident response readiness</li>
+            <li><i class="fas fa-check"></i> Cloud security review</li>
+          </ul>
+          <a href="#inquiry-form" class="btn btn-primary package-btn">Request Quotation</a>
+        </div>
+
+        <!-- Package 4: Financial Shield -->
+        <div class="cyber-package-card animate-on-scroll">
+          <div class="package-name">Financial Shield</div>
+          <div class="package-price">RM40,000 <span>– RM120,000</span></div>
+          <p class="package-desc">For banks, fintech companies, and financial institutions requiring PCI-DSS compliance and advanced fraud risk assessment.</p>
+          <ul class="package-features">
+            <li><i class="fas fa-check"></i> PCI-DSS compliance audit</li>
+            <li><i class="fas fa-check"></i> Penetration testing (external &amp; internal)</li>
+            <li><i class="fas fa-check"></i> Fraud risk assessment</li>
+            <li><i class="fas fa-check"></i> 24/7 security monitoring</li>
+          </ul>
+          <a href="#inquiry-form" class="btn btn-outline package-btn">Request Quotation</a>
+        </div>
+
+        <!-- Package 5: Gov Safe -->
+        <div class="cyber-package-card animate-on-scroll">
+          <div class="package-name">Gov Safe</div>
+          <div class="package-price">RM50,000 <span>– RM100,000+</span></div>
+          <p class="package-desc">Built for government agencies and public-sector organisations with stringent national security compliance requirements.</p>
+          <ul class="package-features">
+            <li><i class="fas fa-check"></i> National security compliance</li>
+            <li><i class="fas fa-check"></i> Advanced threat intelligence</li>
+            <li><i class="fas fa-check"></i> 24/7 security operations</li>
+            <li><i class="fas fa-check"></i> Classified data protection</li>
+          </ul>
+          <a href="#inquiry-form" class="btn btn-outline package-btn">Request Quotation</a>
+        </div>
+
+        <!-- Package 6: Enterprise Security Suite -->
+        <div class="cyber-package-card animate-on-scroll">
+          <div class="package-name">Enterprise Security Suite</div>
+          <div class="package-price">RM60,000 <span>– RM120,000+</span></div>
+          <p class="package-desc">The complete enterprise-grade solution for large organisations requiring full-spectrum security, ISO 27001 certification support, and forensic capabilities.</p>
+          <ul class="package-features">
+            <li><i class="fas fa-check"></i> Full-suite security audit</li>
+            <li><i class="fas fa-check"></i> ISO 27001 certification support</li>
+            <li><i class="fas fa-check"></i> Advanced penetration testing</li>
+            <li><i class="fas fa-check"></i> Digital forensics &amp; analysis</li>
+          </ul>
+          <a href="#inquiry-form" class="btn btn-outline package-btn">Request Quotation</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== VALUE PROPOSITION ==================== -->
+  <section class="section-dark cyber-value-section animate-on-scroll">
+    <div class="container">
+      <div class="section-tag section-tag-light">Why Choose Marz Stay Secure</div>
+      <h2 class="section-title section-title-light">The Value of Proactive Security</h2>
+      <p class="section-text section-text-light">Investing in cybersecurity isn't just about protection — it's a strategic business decision that delivers measurable value across your organisation.</p>
+      <div class="cyber-value-grid">
+        <div class="cyber-value-item animate-on-scroll">
+          <div class="icon"><i class="fas fa-shield-halved"></i></div>
+          <h3>Enhanced Security</h3>
+          <p>Proactive identification and remediation of vulnerabilities before they can be exploited.</p>
+        </div>
+        <div class="cyber-value-item animate-on-scroll">
+          <div class="icon"><i class="fas fa-scale-balanced"></i></div>
+          <h3>Regulatory Compliance</h3>
+          <p>Stay compliant with industry regulations and avoid costly fines and legal penalties.</p>
+        </div>
+        <div class="cyber-value-item animate-on-scroll">
+          <div class="icon"><i class="fas fa-chart-line"></i></div>
+          <h3>Proactive Risk Management</h3>
+          <p>Transform from reactive firefighting to strategic, risk-based security management.</p>
+        </div>
+        <div class="cyber-value-item animate-on-scroll">
+          <div class="icon"><i class="fas fa-coins"></i></div>
+          <h3>Cost Savings</h3>
+          <p>Prevent costly data breaches, ransomware attacks, and business interruption losses.</p>
+        </div>
+        <div class="cyber-value-item animate-on-scroll">
+          <div class="icon"><i class="fas fa-rotate"></i></div>
+          <h3>Business Continuity</h3>
+          <p>Ensure your operations remain resilient in the face of cyber threats and disruptions.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== INQUIRY FORM ==================== -->
+  <section id="inquiry-form" class="section-dark cyber-form-section animate-on-scroll">
+    <div class="container">
+      <div class="section-tag section-tag-light">Get Started</div>
+      <h2 class="section-title section-title-light">Request a Cybersecurity Audit Quotation</h2>
+      <p class="section-text section-text-light" style="margin-bottom: 40px;">Fill out the form below and our cybersecurity team will get back to you within 24 hours with a tailored quotation.</p>
+      <div class="cyber-form-wrapper">
+        <div id="formStatus" class="form-status"></div>
+        <form id="cyberInquiryForm" method="POST">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Full Name <span class="required">*</span></label>
+              <input type="text" id="name" name="name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address <span class="required">*</span></label>
+              <input type="email" id="email" name="email" placeholder="your@company.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Phone Number <span class="required">*</span></label>
+              <input type="tel" id="phone" name="phone" placeholder="+60 1X-XXX XXXX" required>
+            </div>
+            <div class="form-group">
+              <label for="company">Company</label>
+              <input type="text" id="company" name="company" placeholder="Your company name">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="package">Package Interest <span class="required">*</span></label>
+              <select id="package" name="package" required>
+                <option value="" disabled selected>Select a package</option>
+                <option value="Essential Security (RM8K-RM12K)">Essential Security (RM8,000 – RM12,000)</option>
+                <option value="E-Commerce Protect (RM20K-RM40K)">E-Commerce Protect (RM20,000 – RM40,000)</option>
+                <option value="Health Secure (RM30K-RM60K)">Health Secure (RM30,000 – RM60,000)</option>
+                <option value="Financial Shield (RM40K-RM120K)">Financial Shield (RM40,000 – RM120,000)</option>
+                <option value="Gov Safe (RM50K-RM100K+)">Gov Safe (RM50,000 – RM100,000+)</option>
+                <option value="Enterprise Security Suite (RM60K-RM120K+)">Enterprise Security Suite (RM60,000 – RM120,000+)</option>
+                <option value="Not Sure / Custom Package">Not Sure / Custom Package</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="industry">Industry</label>
+              <select id="industry" name="industry">
+                <option value="" disabled selected>Select your industry</option>
+                <option value="E-Commerce / Retail">E-Commerce / Retail</option>
+                <option value="Healthcare / Medical">Healthcare / Medical</option>
+                <option value="Banking / Finance / Fintech">Banking / Finance / Fintech</option>
+                <option value="Government / Public Sector">Government / Public Sector</option>
+                <option value="Education">Education</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="Technology / IT">Technology / IT</option>
+                <option value="SME / Startup">SME / Startup</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="concerns">Security Concerns</label>
+            <textarea id="concerns" name="concerns" rows="3" placeholder="Describe any specific security concerns or challenges your organisation is facing..."></textarea>
+          </div>
+          <div class="form-group">
+            <label for="notes">Additional Notes</label>
+            <textarea id="notes" name="notes" rows="3" placeholder="Any other information you'd like us to know..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">
+            <i class="fas fa-paper-plane"></i> Submit Inquiry
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA SECTION ==================== -->
+  <section class="cta-section animate-on-scroll">
+    <div class="container">
+      <h2 class="cta-title">Ready to Secure Your Business?</h2>
+      <p class="cta-text">Don't wait for a breach to take cybersecurity seriously. Contact us today for a free initial consultation and discover how Marz Stay Secure can protect your organisation.</p>
+      <div class="cta-buttons">
+        <a href="#inquiry-form" class="btn btn-primary">Request a Quotation</a>
+        <a href="../contact.html" class="btn btn-outline">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="../index.html" class="logo">
+            <img src="../images/logo-marz.png" alt="Marz Technology" style="height: 32px; width: auto;">
+          </a>
+          <p>Your Trusted IT Solutions Partner in Malaysia — providing enterprise-grade technology, AI solutions, and digital transformation since 2015.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="../about.html">About Us</a></li>
+            <li><a href="../services.html">Services</a></li>
+            <li><a href="../ai-solutions.html">AI Solutions</a></li>
+            <li><a href="../products.html">Products</a></li>
+            <li><a href="../contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Services</h4>
+          <ul class="footer-links">
+            <li><a href="../services.html">IT Support</a></li>
+            <li><a href="../services.html">Networking</a></li>
+            <li><a href="../ai-solutions.html">AI & Automation</a></li>
+            <li><a href="../services.html">Web Development</a></li>
+            <li><a href="../services.html">CCTV & Security</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul class="footer-contact">
+            <li><span class="footer-contact-icon"><i class="fas fa-map-marker-alt"></i></span> No 7-1, Jalan Hillpark 11/9, Pusat Perdagangan Hillpark, 42300 Bandar Puncak Alam, Selangor</li>
+            <li><span class="footer-contact-icon"><i class="fas fa-phone"></i></span> 012-6646761 / 012-6727650</li>
+            <li><span class="footer-contact-icon"><i class="fas fa-clock"></i></span> Isnin - Sabtu (10am - 6pm)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; <span id="year">2026</span> Marz Technology &amp; Trading. All rights reserved. SSM: 001884868v</span>
+        <span><a href="https://maps.app.goo.gl/Hw9J2LqNg5vxeV7z6" target="_blank" rel="noopener"><i class="fas fa-map-marker-alt"></i> Google Maps</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+  <script src="../js/main.js"></script>
+  <script>
+    // Dynamic year update
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Cybersecurity inquiry form - AJAX submission
+    (function() {
+      const form = document.getElementById('cyberInquiryForm');
+      const statusDiv = document.getElementById('formStatus');
+      const submitBtn = form.querySelector('button[type="submit"]');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Show loading state
+        statusDiv.className = 'form-status loading';
+        statusDiv.textContent = 'Submitting your inquiry...';
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+        // Gather form data
+        const formData = new FormData(form);
+
+        // Send AJAX
+        fetch('cybersecurity-inquiry.php', {
+          method: 'POST',
+          body: formData
+        })
+        .then(function(response) {
+          return response.json().then(function(data) {
+            return { status: response.status, data: data };
+          });
+        })
+        .then(function(result) {
+          if (result.data.success) {
+            statusDiv.className = 'form-status success';
+            statusDiv.textContent = result.data.message || 'Thank you! Our cybersecurity team will get back to you within 24 hours.';
+            form.reset();
+          } else {
+            statusDiv.className = 'form-status error';
+            statusDiv.textContent = result.data.message || 'Something went wrong. Please try again.';
+          }
+        })
+        .catch(function() {
+          statusDiv.className = 'form-status error';
+          statusDiv.textContent = 'Unable to submit your inquiry. Please check your connection and try again, or contact us directly.';
+        })
+        .finally(function() {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Inquiry';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
+
+

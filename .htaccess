@@ -1,0 +1,190 @@
+# =============================================================================
+# MARZ TECHNOLOGY & TRADING - .htaccess
+# Comprehensive security and performance configuration
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Rewrite Engine
+# -----------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # ---------------------------------------------------------------------------
+  # WWW to Non-WWW Redirect
+  # ---------------------------------------------------------------------------
+  RewriteCond %{HTTP_HOST} ^www\.marztechnology\.com\.my [NC]
+  RewriteRule ^(.*)$ https://marztechnology.com.my/$1 [R=301,L]
+
+  # ---------------------------------------------------------------------------
+  # HTTPS Redirect (if behind proxy/load balancer, uncomment the next block)
+  # ---------------------------------------------------------------------------
+  RewriteCond %{HTTPS} off
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # ---------------------------------------------------------------------------
+  # Custom Error Pages
+  # ---------------------------------------------------------------------------
+  ErrorDocument 404 /404.html
+  ErrorDocument 403 /404.html
+  ErrorDocument 500 /404.html
+
+  # ---------------------------------------------------------------------------
+  # Block Bad Bots (known scrapers, malicious crawlers)
+  # ---------------------------------------------------------------------------
+  RewriteCond %{HTTP_USER_AGENT} (ahrefs|majestic|rogerbot|semrush|dotbot|mj12bot|screaming|siteaudit|blexbot|curl|wget|python-requests|scrapy|httrack|harvest|nikto|nessus|sqlmap) [NC]
+  RewriteRule .* - [F,L]
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# Security Headers
+# -----------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  # Prevent clickjacking
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # Prevent MIME-type sniffing
+  Header always set X-Content-Type-Options "nosniff"
+
+  # Enable HSTS (HTTP Strict Transport Security) - 1 year
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+  # Content Security Policy
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self'; frame-src 'self' https://www.google.com; form-action 'self'; base-uri 'self'; object-src 'none';"
+
+  # Referrer Policy
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+  # Permissions Policy (formerly Feature-Policy)
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+
+  # Remove X-Powered-By header (if PHP)
+  Header always unset X-Powered-By
+
+  # Remove Server header (if mod_security available)
+  Header always unset Server
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# Cache Control for Static Assets
+# -----------------------------------------------------------------------------
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # Default: 1 month
+  ExpiresDefault "access plus 1 month"
+
+  # HTML: 0 seconds (must revalidate)
+  ExpiresByType text/html "access plus 0 seconds"
+
+  # CSS & JavaScript: 1 year
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType application/x-javascript "access plus 1 year"
+
+  # Images: 1 year
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+
+  # Fonts: 1 year
+  ExpiresByType font/ttf "access plus 1 year"
+  ExpiresByType font/otf "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+
+  # PDF & Documents: 1 month
+  ExpiresByType application/pdf "access plus 1 month"
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# Cache-Control Headers for Static Assets
+# -----------------------------------------------------------------------------
+<IfModule mod_headers.c>
+  # HTML: no cache (revalidate with server)
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+  </FilesMatch>
+
+  # CSS & JS: immutable, public cache for 1 year
+  <FilesMatch "\.(css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Images & Fonts: public cache for 1 year
+  <FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|ttf|otf|woff|woff2)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # PDF: public, cache for 1 month
+  <FilesMatch "\.pdf$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# Gzip Compression
+# -----------------------------------------------------------------------------
+<IfModule mod_deflate.c>
+  # Compress HTML, CSS, JavaScript, Text, XML and fonts
+  AddOutputFilterByType DEFLATE text/html
+  AddOutputFilterByType DEFLATE text/plain
+  AddOutputFilterByType DEFLATE text/xml
+  AddOutputFilterByType DEFLATE text/css
+  AddOutputFilterByType DEFLATE text/javascript
+  AddOutputFilterByType DEFLATE application/javascript
+  AddOutputFilterByType DEFLATE application/x-javascript
+  AddOutputFilterByType DEFLATE application/json
+  AddOutputFilterByType DEFLATE application/xml
+  AddOutputFilterByType DEFLATE application/rss+xml
+  AddOutputFilterByType DEFLATE application/atom+xml
+  AddOutputFilterByType DEFLATE image/svg+xml
+  AddOutputFilterByType DEFLATE font/ttf
+  AddOutputFilterByType DEFLATE font/otf
+
+  # Remove browser bugs
+  BrowserMatch ^Mozilla/4 gzip-only-text/html
+  BrowserMatch ^Mozilla/4\.0[678] no-gzip
+  BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+  Header append Vary User-Agent
+</IfModule>
+
+# -----------------------------------------------------------------------------
+# Block Access to Sensitive Files
+# -----------------------------------------------------------------------------
+<FilesMatch "^\.">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+<FilesMatch "\.(env|git|htaccess|htpasswd|ini|log|sh|sql|md|yml|yaml|lock|json)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+# Protect wp-config if WordPress is detected
+<Files wp-config.php>
+  Order allow,deny
+  Deny from all
+</Files>
+
+# -----------------------------------------------------------------------------
+# Directory Browsing
+# -----------------------------------------------------------------------------
+Options -Indexes
+
+# -----------------------------------------------------------------------------
+# Character Set
+# -----------------------------------------------------------------------------
+AddDefaultCharset UTF-8
+
+# -----------------------------------------------------------------------------
+# File Access (dev files)
+# -----------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteRule ^(.git) - [F,L]
+  RewriteRule ^(node_modules) - [F,L]
+  RewriteRule ^(vendor) - [F,L]
+</IfModule>

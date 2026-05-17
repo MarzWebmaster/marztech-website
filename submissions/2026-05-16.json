@@ -1,0 +1,72 @@
+[
+    {
+        "id": "msg_6a0868e563f10",
+        "timestamp": "2026-05-16 20:53:57",
+        "name": "Test User",
+        "email": "test@example.com",
+        "phone": "012-3456789",
+        "subject": "General Inquiry",
+        "message": "Ini test message"
+    },
+    {
+        "id": "rent_6a0871240eae7",
+        "timestamp": "2026-05-16 21:29:08",
+        "type": "Rental Inquiry",
+        "name": "Test User",
+        "email": "test@example.com",
+        "phone": "0123456789",
+        "company": "",
+        "package": "Basic Package",
+        "quantity": "5",
+        "duration": "Weekly",
+        "start_date": "2026-06-01",
+        "purpose": "training",
+        "delivery_addr": "",
+        "notes": "Need MS Office installed"
+    },
+    {
+        "id": "rent_6a0871ee08e20",
+        "timestamp": "2026-05-16 21:32:30",
+        "type": "Rental Inquiry",
+        "name": "Ali",
+        "email": "ali@test.com",
+        "phone": "0123456789",
+        "company": "Test Sdn Bhd",
+        "package": "Standard Package",
+        "quantity": "10",
+        "duration": "Monthly",
+        "start_date": "2026-06-15",
+        "purpose": "office",
+        "delivery_addr": "Shah Alam",
+        "notes": "Need WiFi setup"
+    },
+    {
+        "type": "Cybersecurity Inquiry",
+        "name": "Test",
+        "email": "test@test.com",
+        "phone": "012345",
+        "company": "",
+        "package": "essential",
+        "industry": "finance",
+        "concerns": "Data breach",
+        "notes": "Need urgent",
+        "submitted_at": "2026-05-16 22:03:18",
+        "ip": "127.0.0.1"
+    },
+    {
+        "id": "its_6a087983e4cb8",
+        "timestamp": "2026-05-16 22:04:51",
+        "type": "IT Support Inquiry",
+        "name": "Test",
+        "email": "t@t.com",
+        "phone": "0123",
+        "company": "",
+        "package": "Basic Plan (RM900\/month)",
+        "num_users": "10",
+        "locations": "Shah Alam",
+        "challenges": "Slow network",
+        "notes": "Need urgent",
+        "ip": "127.0.0.1",
+        "user_agent": "curl\/7.68.0"
+    }
+]
