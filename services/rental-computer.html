@@ -293,6 +293,14 @@
           <button type="submit" id="rentalSubmitBtn" class="btn btn-primary" style="width: 100%; padding: 14px; font-size: 16px;">
             <i class="fas fa-paper-plane"></i> Submit Rental Inquiry
           </button>
+        
+            <!-- Anti-spam -->
+            <div style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
+                <label for="website_url">Leave this empty</label>
+                <input type="text" name="website_url" id="website_url" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" name="csrf_token" value="static-csrf">
+            
         </form>
         <div id="rentalFormStatus" style="display: none; margin-top: 16px; padding: 12px 16px; border-radius: 10px; text-align: center; font-size: 14px;"></div>
       </div>

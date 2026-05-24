@@ -120,23 +120,57 @@ tr[style*="cursor:pointer"]:hover td { background: #1e293b !important; }
 </div>
 
 <?php else:
-// Load submissions
+require_once '/etc/marztech-config/db.php';
+
+// Load submissions from MySQL (all 4 tables)
 $submissions = [];
-$submissions_dir = __DIR__ . '/submissions';
-if (is_dir($submissions_dir)) {
-    $files = glob($submissions_dir . '/*.json');
-    rsort($files);
-    foreach ($files as $file) {
-        $date = basename($file, '.json');
-        $data = json_decode(file_get_contents($file), true) ?? [];
-        foreach ($data as $entry) {
-            $entry['_date'] = $date;
-            $submissions[] = $entry;
-        }
+
+try {
+    $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=" . DB_CHARSET;
+    $pdo = new PDO($dsn, DB_USER, DB_PASS, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    ]);
+
+    // Contact inquiries
+    $rows = $pdo->query("SELECT id, inquiry_id, name, email, phone, subject AS package, '' AS num_users, '' AS locations, message AS challenges, '' AS company, '' AS quantity, '' AS duration, '' AS start_date, '' AS purpose, '' AS delivery_addr, '' AS concerns, '' AS industry, '' AS description, ip_address, user_agent, email_sent, created_at FROM contact_inquiries")->fetchAll();
+    foreach ($rows as $r) {
+        $r['type'] = 'Contact';
+        $r['subject_or_pkg'] = $r['package'] ?: 'General';
+        $submissions[] = $r;
     }
+
+    // IT Support inquiries
+    $rows = $pdo->query("SELECT id, inquiry_id, name, email, phone, package, num_users, locations, challenges, company, '' AS quantity, '' AS duration, '' AS start_date, '' AS purpose, '' AS delivery_addr, '' AS concerns, '' AS industry, '' AS description, ip_address, user_agent, email_sent, created_at FROM it_support_inquiries")->fetchAll();
+    foreach ($rows as $r) {
+        $r['type'] = 'IT Support Inquiry';
+        $r['subject_or_pkg'] = $r['package'] ?: '-';
+        $submissions[] = $r;
+    }
+
+    // Rental inquiries
+    $rows = $pdo->query("SELECT id, inquiry_id, name, email, phone, package, '' AS num_users, '' AS locations, notes AS challenges, company, quantity, duration, start_date, purpose, delivery_addr, '' AS concerns, '' AS industry, '' AS description, ip_address, user_agent, email_sent, created_at FROM rental_inquiries")->fetchAll();
+    foreach ($rows as $r) {
+        $r['type'] = 'Rental Inquiry';
+        $r['subject_or_pkg'] = $r['package'] ?: '-';
+        $submissions[] = $r;
+    }
+
+    // Cybersecurity inquiries
+    $rows = $pdo->query("SELECT id, inquiry_id, name, email, phone, package, '' AS num_users, '' AS locations, notes AS challenges, company, '' AS quantity, '' AS duration, '' AS start_date, '' AS purpose, '' AS delivery_addr, concerns, industry, description, ip_address, user_agent, email_sent, created_at FROM cybersecurity_inquiries")->fetchAll();
+    foreach ($rows as $r) {
+        $r['type'] = 'Cybersecurity Inquiry';
+        $r['subject_or_pkg'] = $r['package'] ?: '-';
+        $submissions[] = $r;
+    }
+
+} catch (PDOException $e) {
+    error_log("Admin DB load failed: " . $e->getMessage());
+    $submissions = [];
 }
-// Reverse so newest first (already reversed via rsort files, but entries within a file need reversing too)
-$submissions = array_reverse($submissions);
+
+// Sort by created_at DESC (newest first)
+usort($submissions, fn($a, $b) => strtotime($b['created_at']) - strtotime($a['created_at']));
 
 // Filters
 $filter_date = $_GET['date'] ?? '';
@@ -144,26 +178,31 @@ $filter_type = $_GET['type'] ?? '';
 $filter_subject = $_GET['subject'] ?? '';
 
 if ($filter_date) {
-    $submissions = array_filter($submissions, fn($s) => str_starts_with($s['timestamp'] ?? '', $filter_date));
+    $submissions = array_filter($submissions, fn($s) => str_starts_with($s['created_at'] ?? '', $filter_date));
 }
 if ($filter_type) {
-    $submissions = array_filter($submissions, fn($s) => ($s['type'] ?? 'Contact') === $filter_type);
+    $submissions = array_filter($submissions, fn($s) => $s['type'] === $filter_type);
 }
 if ($filter_subject) {
-    $submissions = array_filter($submissions, fn($s) => ($s['subject'] ?? $s['package'] ?? '') === $filter_subject);
+    $submissions = array_filter($submissions, fn($s) => ($s['subject_or_pkg'] ?? '') === $filter_subject);
 }
 
 // Stats
 $total = count($submissions);
-$subjects_count = [];
+$type_count = [];
 foreach ($submissions as $s) {
-    $subj = $s['subject'] ?? 'Unknown';
-    $subjects_count[$subj] = ($subjects_count[$subj] ?? 0) + 1;
+    $t = $s['type'] ?? 'Unknown';
+    $type_count[$t] = ($type_count[$t] ?? 0) + 1;
+}
+$package_count = [];
+foreach ($submissions as $s) {
+    $pkg = $s['subject_or_pkg'] ?? 'Unknown';
+    $package_count[$pkg] = ($package_count[$pkg] ?? 0) + 1;
 }
 ?>
 <div class="header-bar">
 <div>
-<h2>📋 Contact Submissions</h2>
+<h2>📋 All Submissions</h2>
 <span>marztechnology.com.my</span>
 </div>
 <div>
@@ -174,8 +213,8 @@ foreach ($submissions as $s) {
 <div class="container">
 <div class="stats">
 <div class="stat-card"><h3><?=$total?></h3><p>Total Submissions</p></div>
-<?php foreach ($subjects_count as $subj => $count): ?>
-<div class="stat-card"><h3><?=$count?></h3><p><?=htmlspecialchars($subj)?></p></div>
+<?php foreach ($type_count as $type => $count): ?>
+<div class="stat-card"><h3><?=$count?></h3><p><?=htmlspecialchars($type)?></p></div>
 <?php endforeach; ?>
 </div>
 
@@ -235,7 +274,7 @@ foreach ($submissions as $s) {
 <tbody>
 <?php foreach ($submissions as $s): 
 $type = $s['type'] ?? 'Contact';
-$subj_or_pkg = $s['subject'] ?? $s['package'] ?? '-';
+$subj_or_pkg = $s['subject_or_pkg'] ?? '-';
 $subj_class = match($subj_or_pkg) {
     'General Inquiry', 'IT Support', 'AI Solutions', 'Products', 'Partnership' => 'subject-general',
     'Basic Package' => 'subject-general',
@@ -246,12 +285,17 @@ $subj_class = match($subj_or_pkg) {
     'Pay-Per-Use (RM200/hr)', 'Basic Plan (RM900/month)', 'Advanced Plan (RM1,500/month)', 'Silver Plan (RM2,499/month)', 'Gold Plan (RM3,999/month)', 'Platinum Plan (RM6,499+/month)' => 'subject-products',
     default => 'subject-general',
 };
-$type_class = $type === 'Rental Inquiry' ? 'subject-ai-solutions' : 'subject-general';
+$type_class = match($type) {
+    'Rental Inquiry' => 'subject-ai-solutions',
+    'Cybersecurity Inquiry' => 'subject-ai-solutions',
+    'IT Support Inquiry' => 'subject-products',
+    default => 'subject-general',
+};
 $details = '';
 if ($type === 'Rental Inquiry') {
     $details = 'Pkg: ' . htmlspecialchars($subj_or_pkg) . ' | Qty: ' . htmlspecialchars($s['quantity'] ?? '-') . ' | Dur: ' . htmlspecialchars($s['duration'] ?? '-');
     if (!empty($s['company'])) $details = htmlspecialchars($s['company']) . ' — ' . $details;
-    if (!empty($s['notes'])) $details .= ' | Notes: ' . htmlspecialchars(substr($s['notes'], 0, 60));
+    if (!empty($s['challenges'])) $details .= ' | Notes: ' . htmlspecialchars(substr($s['challenges'], 0, 60));
 } elseif ($type === 'Cybersecurity Inquiry') {
     $pkg = htmlspecialchars($subj_or_pkg);
     $industry = htmlspecialchars($s['industry'] ?? '-');
@@ -264,16 +308,16 @@ if ($type === 'Rental Inquiry') {
     $details = "Pkg: $pkg | Users: $users | Loc: $loc";
     if (!empty($s['challenges'])) $details .= ' | Issues: ' . htmlspecialchars(substr($s['challenges'], 0, 60));
 } else {
-    $details = htmlspecialchars($s['message'] ?? '');
+    $details = htmlspecialchars($s['challenges'] ?? '');
 }
 ?>
-<tr onclick="window.location='submission-detail.php?id=<?=htmlspecialchars($s['id'] ?? '')?>'" style="cursor:pointer;">
+<tr onclick="window.location='submission-detail.php?id=<?=htmlspecialchars($s['inquiry_id'] ?? '')?>'" style="cursor:pointer;">
 <td><span class="subject-badge <?=$type_class?>"><?=htmlspecialchars($type)?></span></td>
 <td class="name"><?=htmlspecialchars($s['name'] ?? '')?></td>
 <td class="email"><?=htmlspecialchars($s['email'] ?? '')?></td>
 <td class="msg"><?=$details?></td>
 <td style="color:#94a3b8;"><?=htmlspecialchars($s['phone'] ?? '-')?></td>
-<td class="time"><?=htmlspecialchars($s['timestamp'] ?? '')?></td>
+<td class="time"><?=htmlspecialchars($s['created_at'] ?? '')?></td>
 </tr>
 <?php endforeach; ?>
 </tbody>
@@ -283,7 +327,3 @@ if ($type === 'Rental Inquiry') {
 <?php endif; ?>
 </body>
 </html>
-
-
-
-

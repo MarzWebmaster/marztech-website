@@ -622,6 +622,14 @@
           <button type="submit" class="btn btn-primary btn-block">
             <i class="fas fa-paper-plane"></i> Submit Inquiry
           </button>
+        
+            <!-- Anti-spam -->
+            <div style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
+                <label for="website_url">Leave this empty</label>
+                <input type="text" name="website_url" id="website_url" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" name="csrf_token" value="static-csrf">
+            
         </form>
       </div>
     </div>

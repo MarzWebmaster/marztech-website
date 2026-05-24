@@ -2,6 +2,8 @@
 // Marz Technology & Trading — Contact Form Handler
 // Saves submission to JSON + sends email notification
 
+require_once '/etc/marztech-config/db.php';
+require_once '/etc/marztech-config/security.php';
 header('Content-Type: application/json; charset=utf-8');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -30,6 +32,14 @@ if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 if (!empty($errors)) {
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => implode(', ', $errors)]);
+    exit;
+}
+
+// ----- SECURITY CHECKS -----
+$security_errors = security_validate();
+if (!empty($security_errors)) {
+    http_response_code(400);
+    echo json_encode(['success' => false, 'message' => 'Invalid request. Please refresh the page and try again.']);
     exit;
 }
 
@@ -90,7 +100,7 @@ $email_body .= "$message\n";
 
 $headers  = "From: Contact Form <noreply@marztechnology.com.my>\r\n";
 $headers .= "Reply-To: $email\r\n";
-$headers .= "Cc: marzcomputer@gmail.com\r\n";
+$headers .= "Cc: marzcomputer@gmail.com, sales@marz.my\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";

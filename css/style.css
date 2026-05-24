@@ -383,6 +383,7 @@ h1, h2, h3, h4, h5, h6 {
     transition: var(--transition);
     z-index: 999;
     overflow-y: auto;
+    display: block;
   }
 
   .nav.open {

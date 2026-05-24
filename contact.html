@@ -10,6 +10,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <link rel="stylesheet" href="css/style.css">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NFLWS29B86"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-NFLWS29B86');
+</script>
 </head>
 <body>
 <header class="header">
@@ -132,7 +141,15 @@
 </div>
 
 <button type="submit" class="btn btn-primary btn-block">Send Message <i class="fas fa-paper-plane"></i></button>
-</form>
+
+            <!-- Anti-spam -->
+            <div style="position:absolute;left:-9999px;opacity:0" aria-hidden="true">
+                <label for="website_url">Leave this empty</label>
+                <input type="text" name="website_url" id="website_url" tabindex="-1" autocomplete="off">
+            </div>
+            <input type="hidden" name="csrf_token" value="static-csrf">
+            
+        </form>
 </div>
 </div>
 </div>
