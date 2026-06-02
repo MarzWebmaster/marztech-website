@@ -383,7 +383,6 @@ h1, h2, h3, h4, h5, h6 {
     transition: var(--transition);
     z-index: 999;
     overflow-y: auto;
-    display: block;
   }
 
   .nav.open {
@@ -1420,58 +1419,3 @@ section {
   .hero-buttons .btn { width: 100%; }
   .cta-buttons .btn { width: 100%; }
 }
-
-/* ============================================================
-   PARTNERS / TECH LOGOS SLIDER
-   ============================================================ */
-.partners-section {
-  background: #0f172a;
-  padding: 50px 0;
-  overflow: hidden;
-  border-top: 1px solid #1e293b;
-  border-bottom: 1px solid #1e293b;
-}
-
-.partners-wrap {
-  overflow: hidden;
-  width: 100%;
-}
-
-.partners-track {
-  display: flex;
-  gap: 80px;
-  animation: scroll-logos 25s linear infinite;
-  width: max-content;
-}
-
-.partners-track:hover {
-  animation-play-state: paused;
-}
-
-.partner-logo {
-  flex-shrink: 0;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
-
-.partner-logo:hover {
-  opacity: 1;
-}
-
-.partner-logo img {
-  height: 100%;
-  width: auto;
-  max-width: 100px;
-  object-fit: contain;
-}
-
-@keyframes scroll-logos {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-

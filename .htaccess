@@ -8,6 +8,18 @@
 # -----------------------------------------------------------------------------
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # ---------------------------------------------------------------------------
+  # 301 Redirects for Old WordPress Pages
+  # ---------------------------------------------------------------------------
+  RewriteRule ^about-us/?$ /about.html [R=301,L]
+  RewriteRule ^contact-us/?$ /contact.html [R=301,L]
+  RewriteRule ^sample-page/?$ / [R=301,L]
+  RewriteRule ^our-updates/?$ / [R=301,L]
+  RewriteRule ^our-portfolio/?$ / [R=301,L]
+  RewriteRule ^product/computer/?$ /products.html [R=301,L]
+  RewriteRule ^service/computer-and-it-peripherals-rental/?$ /services/rental-computer.html [R=301,L]
+  RewriteRule ^fully-managed-it-support-services-company-in-singapore/?$ /services.html [R=301,L]
+
 
   # ---------------------------------------------------------------------------
   # WWW to Non-WWW Redirect

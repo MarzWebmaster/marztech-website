@@ -8,8 +8,6 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
-require_once '/etc/marztech-config/db.php';
-require_once '/etc/marztech-config/security.php';
 header('Content-Type: application/json; charset=utf-8');
 
 // Handle preflight
@@ -57,14 +55,6 @@ if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
 if (!empty($errors)) {
     http_response_code(400);
     echo json_encode(['success' => false, 'message' => implode('. ', $errors) . '.']);
-    exit;
-}
-
-// ----- SECURITY CHECKS -----
-$security_errors = security_validate();
-if (!empty($security_errors)) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Invalid request. Please refresh the page and try again.']);
     exit;
 }
 
@@ -212,7 +202,6 @@ $headers  = "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
 $headers .= "From: Marz Stay Secure <noreply@marztechnology.com.my>\r\n";
 $headers .= "Reply-To: " . $email . "\r\n";
-$headers .= "Cc: marzcomputer@gmail.com, sales@marz.my\r\n";
 $headers .= "CC: " . $cc . "\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 
@@ -228,7 +217,6 @@ if (!$mailSent) {
         $ccHeaders = "MIME-Version: 1.0\r\n";
         $ccHeaders .= "Content-Type: text/html; charset=UTF-8\r\n";
         $ccHeaders .= "From: Marz Stay Secure <noreply@marztechnology.com.my>\r\n";
-$ccHeaders .= "Cc: marzcomputer@gmail.com, sales@marz.my\r\n";
         mail($cc, "[CC] $subject", $emailBody, $ccHeaders);
     }
 }
