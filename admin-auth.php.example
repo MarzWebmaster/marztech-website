@@ -1,0 +1,8 @@
+<?php
+// Admin credentials for Marz Technology website
+// Location: /etc/marztech-config/admin-auth.php (outside webroot)
+// Generated: 2026-06-08
+
+$admin_user = 'webmaster@marzcomputer.com.my';
+// Password hash (bcrypt) — generated via: php -r "echo password_hash('YOUR_NEW_PASSWORD', PASSWORD_BCRYPT);"
+$admin_pass_hash = '$2y$10$PLACEHOLDER_GENERATE_ON_SERVER';

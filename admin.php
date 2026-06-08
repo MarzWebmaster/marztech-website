@@ -1,8 +1,8 @@
 <?php
 session_start();
 
-$admin_user = 'webmaster@marzcomputer.com.my';
-$admin_pass = 'Marzcomputer1!';
+// Load admin credentials from external config (outside webroot)
+require_once '/etc/marztech-config/admin-auth.php';
 
 // Logout
 if (isset($_GET['logout'])) {
@@ -13,7 +13,7 @@ if (isset($_GET['logout'])) {
 
 // Login
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-    if ($_POST['username'] === $admin_user && $_POST['password'] === $admin_pass) {
+    if ($_POST['username'] === $admin_user && password_verify($_POST['password'], $admin_pass_hash)) {
         $_SESSION['logged_in'] = true;
         header('Location: admin.php');
         exit;
